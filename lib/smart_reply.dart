@@ -5,26 +5,26 @@ import 'package:flutter/services.dart';
 /// Represents a text message from a certain user in a conversation
 class TextMessage {
   /// The message content
-  final String text;
+  final String? text;
 
   /// Timestamp of the message
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   /// A unique user ID representing a remote user if the local user is having a
   /// conversation with more than one remote user. It's only used to distinguish
   /// participants in the conversation.
   ///
   /// There is no need to guarantee consistent user IDs across different API calls
-  final String userId;
+  final String? userId;
 
   /// Was this message sent by the local user?
-  final bool isLocalUser;
+  final bool? isLocalUser;
 
   TextMessage({this.text, this.timestamp, this.userId, this.isLocalUser});
 
   Map<String, dynamic> _toJson() => {
         'text': text,
-        'timestamp': timestamp.millisecondsSinceEpoch,
+        'timestamp': timestamp?.millisecondsSinceEpoch,
         'userId': userId,
         'isLocalUser': isLocalUser,
       };
@@ -52,7 +52,7 @@ class SmartReply {
   /// (i.e. from oldest to newest). Internally, SmartReply considers the last 10
   /// messages to generate reply suggestions.
   static Future<List<String>> suggestReplies(List<TextMessage> textMessages) {
-    if (textMessages.isEmpty || textMessages.last.isLocalUser) {
+    if (textMessages.isEmpty || textMessages.last.isLocalUser!) {
       return Future.value([]);
     }
 
